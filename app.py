@@ -7,15 +7,30 @@ from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from qdrant_client import QdrantClient
+from dotenv import load_dotenv
+import os
+from fastapi.middleware.cors import CORSMiddleware
+
+# === Load environment variables from .env ===
+load_dotenv()
 
 # === FastAPI App ===
 app = FastAPI()
 
 # === Config ===
-qdrant_url = "https://ae3eaacf-299d-4931-9081-3f1679c72635.eu-west-1-0.aws.cloud.qdrant.io:6333"
-qdrant_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.R7kudU92gPD3HrWOXSzYh5MTCGcFm5i03CaIK0PQ5A4"
-collection_name = "Gelecke_rag"
+qdrant_url = os.getenv("QDRANT_URL")
+qdrant_key = os.getenv("QDRANT_API_KEY")
+collection_name = os.getenv("COLLECTION_NAME")
+groq_api_key = os.getenv("GROQ_API_KEY")
 
+# Add CORS middleware configuration (same as first.py)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://gelecek_rag.com"],  # Allowed origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allowed methods
+    allow_headers=["*"],  # Allowed headers
+)
 # === Load Embedding Model ===
 embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-base-en-v1.5")
 
@@ -35,7 +50,7 @@ qdrant = QdrantVectorStore(
 # === Load Chat Model ===
 model = ChatGroq(
     model="llama3-70b-8192",
-    api_key="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",
+    api_key=groq_api_key,
     temperature=0,
     max_tokens=1024,
     timeout=30,
