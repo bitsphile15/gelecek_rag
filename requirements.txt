@@ -7,3 +7,4 @@ langchain-groq
 qdrant-client
 python-dotenv
 fastembed
+langchain_communit
