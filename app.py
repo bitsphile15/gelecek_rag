@@ -5,11 +5,12 @@ from langchain_groq import ChatGroq
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
-from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from qdrant_client import QdrantClient
 from dotenv import load_dotenv
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from langchain_community.embeddings import HuggingFaceHubEmbeddings
+
 
 # === Load environment variables from .env ===
 load_dotenv()
@@ -22,6 +23,8 @@ qdrant_url = os.getenv("QDRANT_URL")
 qdrant_key = os.getenv("QDRANT_API_KEY")
 collection_name = os.getenv("COLLECTION_NAME")
 groq_api_key = os.getenv("GROQ_API_KEY")
+hugging_face_key=os.getenv("hg_key")
+
 
 # Add CORS middleware configuration (same as first.py)
 app.add_middleware(
@@ -32,7 +35,11 @@ app.add_middleware(
     allow_headers=["*"],  # Allowed headers
 )
 # === Load Embedding Model ===
-embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-base-en-v1.5")
+
+embeddings = HuggingFaceHubEmbeddings(
+    repo_id="BAAI/bge-base-en-v1.5",
+    huggingfacehub_api_token=hugging_face_key,
+)
 
 # === Initialize Qdrant Client ===
 client = QdrantClient(
