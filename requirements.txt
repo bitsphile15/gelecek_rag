@@ -1,8 +1,9 @@
-fastapi 
-uvicorn 
-pydantic 
-langchain 
-langchain-qdrant 
-langchain-groq 
-qdrant-client 
+fastapi
+uvicorn
+pydantic
+langchain
+langchain-qdrant
+langchain-groq
+qdrant-client
 python-dotenv
+fastembed
