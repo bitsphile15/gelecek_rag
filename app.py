@@ -59,7 +59,7 @@ model = ChatGroq(
     model="llama3-70b-8192",
     api_key=groq_api_key,
     temperature=0,
-    max_tokens=None,
+    max_tokens=1024,
     timeout=30,
     max_retries=2
 )
