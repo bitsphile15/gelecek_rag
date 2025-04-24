@@ -18,12 +18,12 @@ load_dotenv()
 # === FastAPI App ===
 app = FastAPI()
 
-# # === Config ===
-# qdrant_url = os.getenv("QDRANT_URL")
-# qdrant_key = os.getenv("QDRANT_API_KEY")
-# collection_name = os.getenv("COLLECTION_NAME")
-# groq_api_key = os.getenv("GROQ_API_KEY")
-# hugging_face_key=os.getenv("hg_key")
+# === Config ===
+qdrant_url = os.getenv("QDRANT_URL")
+qdrant_key = os.getenv("QDRANT_API_KEY")
+collection_name = os.getenv("COLLECTION_NAME")
+groq_api_key = os.getenv("GROQ_API_KEY")
+hugging_face_key=os.getenv("hg_key")
 
 
 # Add CORS middleware configuration (same as first.py)
